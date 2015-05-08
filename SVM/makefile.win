@@ -1,0 +1,45 @@
+CXX = cl.exe
+ROOT = F:\script\cpplibrary\dataMining
+CFLAGS = /I"$(ROOT)" /W3 /O2 /EHsc /MD /D "_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "WIN32" /nologo /fp:precise /Zc:wchar_t /Zc:forScope
+LDFLAGS=/INCREMENTAL:NO /SUBSYSTEM:CONSOLE
+
+all: svm.obj svmTool.obj eval.obj randomTestSVM.obj grid_eSVR.exe grid_cSVC.exe featureImportance.exe svm_randomTest.exe
+
+%.obj: %.cpp
+	@$(CXX) $(CFLAGS) /c $<
+
+#svm.obj: svm.cpp
+#	$(CXX) $(CFLAGS) /c svm.cpp
+#
+#svmTool.obj: svmTool.cpp
+#	$(CXX) $(CFLAGS) /c svmTool.cpp
+#
+#grid_eSVR.obj: grid_eSVR.cpp
+#	$(CXX) $(CFLAGS) /c grid_eSVR.cpp
+
+grid_eSVR.exe: svm.obj svmTool.obj grid_eSVR.obj
+	link.exe $(LDFLAGS) svm.obj svmTool.obj grid_eSVR.obj /OUT:grid_eSVR.exe
+
+#eval.obj: eval.cpp
+#	$(CXX) $(CFLAGS) /c eval.cpp
+#
+#featureImportance.obj: featureImportance.cpp
+#	$(CXX) $(CFLAGS) /c featureImportance.cpp
+
+featureImportance.exe: featureImportance.obj svm.obj eval.obj svmTool.obj
+	link.exe $(LDFLAGS) featureImportance.obj svm.obj eval.obj svmTool.obj /OUT:featureImportance.exe
+#
+#grid_cSVC.obj: grid_cSVC.cpp
+#	$(CXX) $(CFLAGS) /c grid_cSVC.cpp
+#
+grid_cSVC.exe: grid_cSVC.obj eval.obj svm.obj svmTool.obj
+	link.exe $(LDFLAGS) grid_cSVC.obj eval.obj svm.obj svmTool.obj /OUT:grid_cSVC.exe
+
+#randomTestSVM.obj: randomTestSVM.cpp
+#	$(CXX) $(CFLAGS) /c randomTestSVM.cpp
+#
+#svm_randomTest.obj: svm_randomTest.cpp
+#	$(CXX) $(CFLAGS) /c svm_randomTest.cpp
+#
+svm_randomTest.exe: svm_randomTest.obj randomTestSVM.obj ..\evaluation\scoring.obj svm.obj svmTool.obj
+	link.exe $(LDFLAGS) svm_randomTest.obj randomTestSVM.obj ..\evaluation\scoring.obj svm.obj svmTool.obj /OUT:svm_randomTest.exe
