@@ -1,0 +1,8 @@
+CXX = cl.exe
+ROOT = F:\script\cpplibrary\dataMining
+CFLAGS = /I"$(ROOT)" /W3 /O2 /EHsc /MD /D "NDEBUG" /D "WIN32" /nologo /fp:precise /Zc:wchar_t /Zc:forScope
+
+all: scoring.obj
+	
+scoring.obj: scoring.cpp
+	$(CXX) $(CFLAGS) /c scoring.cpp

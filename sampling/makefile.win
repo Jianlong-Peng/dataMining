@@ -1,0 +1,15 @@
+CXX = cl.exe
+CFLAGS = /I"F:\script\cpplibrary\dataMining" /W3 /O2 /EHsc /MD /D"_CRT_SECURE_NO_WARNINGS" /D "NDEBUG" /D "WIN32" /nologo /fp:precise /Zc:wchar_t /Zc:forScope
+LDFLAGS = /INCREMENTAL:NO /SUBSYSTEM:CONSOLE
+OBJS = ../SVM/svmTool.obj ../SVM/svm.obj ../stringUtils/stringUtils.obj kennard-stone.obj kstone.obj
+
+all: kstone.exe
+
+kstone.exe: $(OBJS)
+	link.exe $(LDFLAGS) $(OBJS) /OUT:kstone.exe
+
+kennard-stone.obj: kennard-stone.cpp kennard-stone.h ../data/dataTableSP.hpp ../data/dataTableSP.cpp
+	$(CXX) $(CFLAGS) kennard-stone.cpp /c
+
+kstone.obj: kstone.cpp ../data/dataTableSP.hpp ../data/dataTableSP.cpp
+	$(CXX) $(CFLAGS) kstone.cpp /c

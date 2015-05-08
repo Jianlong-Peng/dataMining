@@ -1,0 +1,5 @@
+CXX = cl.exe
+CFLAGS = /I"F:\script\cpplibrary\dataMining" /W3 /O2 /EHsc /MD /D "NDEBUG" /D "WIN32" /nologo /fp:precise /Zc:wchar_t /Zc:forScope
+
+stringUtils.obj: stringUtils.cpp stringUtils.hpp
+	$(CXX) $(CFLAGS) stringUtils.cpp -c
